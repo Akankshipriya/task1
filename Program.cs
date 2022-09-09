@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace TASK_1
 {
@@ -34,6 +35,22 @@ namespace TASK_1
                     cmd.ExecuteNonQuery();
                     con.Close();
                     Console.WriteLine("Record inserted successfully");
+
+                    string myfile = @"E:\\output.txt";
+                    int count = 1;
+                    if (!File.Exists(myfile))
+                        using (StreamWriter sw = File.CreateText(myfile))
+                        {
+                            sw.WriteLine($"Record : Id - {count}, Name - {emp.name}, department - {emp.department}, salary - {emp.salary}, gender - {emp.gender}");
+                            Console.WriteLine("File Creation done");
+                        }
+                    else
+                        using (StreamWriter sw = File.AppendText(myfile))
+                        {
+                            sw.WriteLine($"Record : Id - {count}, Name - {emp.name}, department - {emp.department}, salary - {emp.salary}, gender - {emp.gender}");
+
+                        }
+                    count = count + 1;
                     break;
                 case 2:
                     Console.WriteLine("Enter id of employee");
